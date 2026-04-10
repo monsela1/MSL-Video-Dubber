@@ -1,0 +1,174 @@
+import React from 'react';
+
+export default function App() {
+  // ទិន្នន័យគំរូសម្រាប់បង្ហាញក្នុងតារាង
+  const subtitles = [
+    { id: 1, start: '0.00', end: '5.10', text: 'បងប្អូន មន្ត្រី ជាន់ ខ្ពស់ របស់ ប្រទេស កូរ៉េ ខាង ត្បូង បាន ចេញ មុខ មក រិះគន់ ប្រធានាធិបតី កូរ៉េ ខាង ត្បូង...', voice: '👩🏻 KH Khmer' },
+    { id: 2, start: '5.10', end: '9.58', text: 'ជុំវិញ រឿង រ៉ាវ ដែល លោក បាន បញ្ជា សារ ជា ភាសា ខ្មែរ នៅ ក្នុង បណ្ដាញ សង្គម ផ្ទាល់ ខ្លួន របស់ លោក...', voice: '👩🏻 KH Khmer' },
+    { id: 3, start: '9.58', end: '12.44', text: 'ពាក់ព័ន្ធ នឹង រឿង ឧក្រិដ្ឋកម្ម ឆ្លង ដែន នៅ កម្ពុជា។', voice: '👨🏻 KH Khmer' },
+    { id: 4, start: '12.44', end: '14.50', text: 'ចង់ ដឹង ព័ត៌មាន លម្អិត មក តាមដាន ស្តាប់ ជាមួយ ខ្ញុំ ទាំង អស់ គ្នា។', voice: '👩🏻 KH Khmer' },
+    { id: 5, start: '14.50', end: '20.44', text: 'គួរ រំលឹក ជូន បងប្អូន បន្ថែម ផង ដែរ ថា កាលពី ថ្ងៃ សុក្រ ទី 30 ខែ មករា ឆ្នាំ 2026 ប៉ុន្មាន ថ្ងៃ មុន នេះ...', voice: '👨🏻 KH Khmer' },
+    { id: 6, start: '20.44', end: '25.68', text: 'គឺ លោក លី ជេ ម្យ៉ាង បាន បង្ហោះ សារ មួយ ជា ភាសា ខ្មែរ នៅ ខាង លើ ហើយ នឹង ជា ភាសា កូរ៉េ នៅ ខាង ក្រោម...', voice: '👩🏻 KH Khmer' },
+    { id: 7, start: '25.68', end: '28.16', text: 'អញ្ចឹង វីដេអូ នេះ ខ្ញុំ បាន សូម អាន សារ នេះ ម្តង ទៀត ជូន បងប្អូន ស្តាប់។', voice: '👩🏻 KH Khmer' }
+  ];
+
+  return (
+    <div className="flex flex-col h-screen bg-[#1e1e1e] text-white font-sans text-sm outline-none">
+      
+      {/* Header Bar */}
+      <div className="bg-[#0f3d30] text-green-400 text-center py-1 font-bold text-sm border-b border-green-600 flex justify-between px-4">
+        <span></span>
+        <span>🎬 AI Video Dubber - Ultimate Edition</span>
+        <span className="text-yellow-500">ស្មារតីខ្មែរ AI</span>
+      </div>
+
+      {/* Main Workspace */}
+      <div className="flex flex-1 p-1 gap-1 overflow-hidden">
+        
+        {/* ================= LEFT COLUMN ================= */}
+        <div className="w-[30%] flex flex-col gap-1">
+          
+          {/* Video Preview */}
+          <div className="border border-green-700 bg-black flex-1 flex flex-col relative">
+            <div className="bg-[#0f3d30] text-green-400 px-2 py-1 text-xs font-bold border-b border-green-700 flex justify-between">
+              <span>📹 Video Preview</span>
+            </div>
+            
+            <div className="flex-1 flex items-center justify-center bg-[#111]">
+              <div className="text-gray-600 text-center">
+                <span className="text-4xl">▶️</span>
+                <p className="mt-2 text-xs">No Video Loaded</p>
+              </div>
+            </div>
+
+            {/* Player Controls */}
+            <div className="p-2 border-t border-green-700 bg-[#222] flex items-center gap-2">
+              <button className="bg-green-700 hover:bg-green-600 text-white px-4 py-1 rounded text-xs font-bold flex items-center gap-1">
+                ▶ Play
+              </button>
+              <button className="bg-red-700 hover:bg-red-600 text-white px-4 py-1 rounded text-xs font-bold flex items-center gap-1">
+                ⏹ Stop
+              </button>
+              <span className="text-cyan-400 font-mono text-xs font-bold ml-auto">00:00 / 00:00</span>
+            </div>
+          </div>
+
+          {/* Tools Panel */}
+          <div className="border border-green-700 bg-[#222] h-[30%] flex flex-col">
+            <div className="bg-[#0f3d30] text-green-400 px-2 py-1 text-xs font-bold border-b border-green-700 flex justify-between items-center">
+              <span>⚙ Tools</span>
+              <label className="flex items-center gap-1 cursor-pointer">
+                <input type="checkbox" className="accent-green-500" />
+                <span className="text-white font-normal">Mute</span>
+              </label>
+            </div>
+            <div className="grid grid-cols-2 gap-2 p-2 flex-1 content-start">
+              <button className="bg-[#d97706] hover:bg-yellow-600 text-white py-2 rounded text-xs font-bold flex justify-center items-center gap-2">
+                📁 Load Video
+              </button>
+              <button className="bg-[#2563eb] hover:bg-blue-600 text-white py-2 rounded text-xs font-bold flex justify-center items-center gap-2">
+                🔄 Refresh
+              </button>
+              <button className="bg-[#7e22ce] hover:bg-purple-600 text-white py-2 rounded text-xs font-bold flex justify-center items-center gap-2">
+                📄 Import LRC
+              </button>
+              <button className="bg-[#7e22ce] hover:bg-purple-600 text-white py-2 rounded text-xs font-bold flex justify-center items-center gap-2">
+                📄 Import SRT
+              </button>
+              <button className="bg-[#475569] hover:bg-gray-600 text-white py-2 rounded text-xs font-bold flex justify-center items-center gap-2">
+                💾 Export SRT
+              </button>
+              <button className="bg-[#16a34a] hover:bg-green-600 text-white py-2 rounded text-xs font-bold flex justify-center items-center gap-2">
+                🔄 Converter
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ================= RIGHT COLUMN ================= */}
+        <div className="w-[70%] flex flex-col gap-1">
+          
+          {/* Table Area */}
+          <div className="border border-green-700 bg-[#1a1a1a] flex-1 flex flex-col overflow-hidden">
+            {/* Table Header */}
+            <div className="grid grid-cols-12 bg-orange-500 text-black font-bold text-xs">
+              <div className="col-span-1 p-1 border-r border-orange-600">Start</div>
+              <div className="col-span-1 p-1 border-r border-orange-600">End</div>
+              <div className="col-span-6 p-1 border-r border-orange-600">Text ( Editable )</div>
+              <div className="col-span-3 p-1 border-r border-orange-600 flex justify-between items-center">
+                <span>Voice</span>
+                <div className="flex gap-1">
+                  <span className="text-[10px]">👩</span><span className="text-[10px]">👩🏻</span><span className="text-[10px]">👨🏻</span>
+                </div>
+              </div>
+              <div className="col-span-1 p-1 text-center">🔊 Audio</div>
+            </div>
+            
+            {/* Table Body */}
+            <div className="overflow-y-auto flex-1">
+              {subtitles.map((sub, index) => (
+                <div key={index} className={`grid grid-cols-12 text-xs border-b border-[#333] ${index % 2 === 0 ? 'bg-[#1a2e24]' : 'bg-[#16271e]'} hover:bg-[#203a2d]`}>
+                  <div className="col-span-1 p-1 text-green-400 flex items-center border-r border-green-800">{sub.start}</div>
+                  <div className="col-span-1 p-1 text-red-400 flex items-center border-r border-green-800">{sub.end}</div>
+                  <div className="col-span-6 p-1 border-r border-green-800">
+                    <input 
+                      type="text" 
+                      className="w-full bg-transparent text-green-300 outline-none focus:bg-[#2a4a3a] px-1" 
+                      defaultValue={sub.text} 
+                    />
+                  </div>
+                  <div className="col-span-3 p-1 border-r border-green-800 flex items-center justify-between text-[11px]">
+                    <span className="text-gray-300 truncate w-20">{sub.voice}</span>
+                    <input type="range" className="w-16 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer" />
+                    <span className="text-[9px] text-gray-500">+0Hz</span>
+                  </div>
+                  <div className="col-span-1 p-1 flex justify-center items-center">
+                    <button className="text-green-500 flex items-center gap-1 hover:text-white">
+                      🔊 Play
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Timeline Editor */}
+          <div className="border border-green-700 bg-[#222] h-[30%] flex flex-col">
+            <div className="bg-[#0f3d30] text-green-400 px-2 py-1 text-xs font-bold border-b border-green-700 flex justify-between items-center">
+              <span>〰 Timeline Editor</span>
+              <div className="flex gap-2 items-center text-[10px]">
+                <span>Zoom:</span>
+                <input type="range" className="w-24 h-1 bg-blue-600 rounded-lg appearance-none cursor-pointer" />
+                <button className="bg-orange-500 text-black px-2 py-0.5 rounded">Color</button>
+                <span>Size:</span>
+                <select className="bg-white text-black rounded"><option>10</option></select>
+                <span>Font:</span>
+                <select className="bg-white text-black rounded"><option>Kh Koulen L</option></select>
+                <span>Voice:</span>
+                <select className="bg-white text-black rounded"><option>👩🏻 KH Khmer</option></select>
+                <span>Language:</span>
+                <select className="bg-white text-black rounded"><option>KM</option></select>
+                <button className="bg-blue-500 text-white px-2 py-0.5 rounded">Translate</button>
+                <button className="bg-green-500 text-black px-2 py-0.5 rounded">Auto Subs</button>
+              </div>
+            </div>
+            
+            <div className="flex-1 relative bg-[#1a1a1a] overflow-hidden p-2">
+               {/* Timeline Tracks */}
+               <div className="absolute top-2 left-2 right-2 h-8 bg-[#00ff7f] border border-black flex">
+                  <div className="w-[20%] border-r border-black p-1 text-[10px] text-black truncate">បងប្អូន មន្ត្រី ជាន់...</div>
+                  <div className="w-[30%] border-r border-black p-1 text-[10px] text-black truncate">ជុំវិញ រឿង ដែល ល...</div>
+                  <div className="w-[50%] p-1 text-[10px] text-black truncate">ពាក់ព័ន្ធ នឹង រឿង ឧក...</div>
+               </div>
+            </div>
+            
+            <div className="bg-[#333] text-center text-[10px] text-gray-400 py-0.5 border-t border-black">
+              Loaded: 0001.mp4
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
