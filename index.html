@@ -16,16 +16,34 @@
     <div id="root"></div>
 
     <script type="text/babel">
+        // ប្រើប្រាស់ React Hook ដើម្បីគ្រប់គ្រងទិន្នន័យ
+        const { useState, useRef } = React;
+
         function App() {
+            // បង្កើត State សម្រាប់ផ្ទុកវីដេអូដែលបាន Upload
+            const [videoUrl, setVideoUrl] = useState(null);
+            const fileInputRef = useRef(null);
+
             const subtitles = [
-                { id: 1, start: '0.00', end: '5.10', text: 'បងប្អូន មន្ត្រី ជាន់ ខ្ពស់ របស់ ប្រទេស កូរ៉េ ខាង ត្បូង បាន ចេញ មុខ មក រិះគន់ ប្រធានាធិបតី កូរ៉េ ខាង ត្បូង...', voice: '👩🏻 KH Khmer' },
-                { id: 2, start: '5.10', end: '9.58', text: 'ជុំវិញ រឿង រ៉ាវ ដែល លោក បាន បញ្ជា សារ ជា ភាសា ខ្មែរ នៅ ក្នុង បណ្ដាញ សង្គម ផ្ទាល់ ខ្លួន របស់ លោក...', voice: '👩🏻 KH Khmer' },
-                { id: 3, start: '9.58', end: '12.44', text: 'ពាក់ព័ន្ធ នឹង រឿង ឧក្រិដ្ឋកម្ម ឆ្លង ដែន នៅ កម្ពុជា។', voice: '👨🏻 KH Khmer' },
-                { id: 4, start: '12.44', end: '14.50', text: 'ចង់ ដឹង ព័ត៌មាន លម្អិត មក តាមដាន ស្តាប់ ជាមួយ ខ្ញុំ ទាំង អស់ គ្នា។', voice: '👩🏻 KH Khmer' },
-                { id: 5, start: '14.50', end: '20.44', text: 'គួរ រំលឹក ជូន បងប្អូន បន្ថែម ផង ដែរ ថា កាលពី ថ្ងៃ សុក្រ ទី 30 ខែ មករា ឆ្នាំ 2026 ប៉ុន្មាន ថ្ងៃ មុន នេះ...', voice: '👨🏻 KH Khmer' },
-                { id: 6, start: '20.44', end: '25.68', text: 'គឺ លោក លី ជេ ម្យ៉ាង បាន បង្ហោះ សារ មួយ ជា ភាសា ខ្មែរ នៅ ខាង លើ ហើយ នឹង ជា ភាសា កូរ៉េ នៅ ខាង ក្រោម...', voice: '👩🏻 KH Khmer' },
-                { id: 7, start: '25.68', end: '28.16', text: 'អញ្ចឹង វីដេអូ នេះ ខ្ញុំ បាន សូម អាន សារ នេះ ម្តង ទៀត ជូន បងប្អូន ស្តាប់។', voice: '👩🏻 KH Khmer' }
+                { id: 1, start: '0.00', end: '5.10', text: 'បងប្អូន មន្ត្រី ជាន់ ខ្ពស់ របស់ ប្រទេស កូរ៉េ ខាង ត្បូង...', voice: '👩🏻 KH Khmer' },
+                { id: 2, start: '5.10', end: '9.58', text: 'ជុំវិញ រឿង រ៉ាវ ដែល លោក បាន បញ្ជា សារ ជា ភាសា ខ្មែរ...', voice: '👩🏻 KH Khmer' },
+                { id: 3, start: '9.58', end: '12.44', text: 'ពាក់ព័ន្ធ នឹង រឿង ឧក្រិដ្ឋកម្ម ឆ្លង ដែន នៅ កម្ពុជា។', voice: '👨🏻 KH Khmer' }
             ];
+
+            // មុខងារពេលចុចប៊ូតុង Load Video
+            const handleLoadVideoClick = () => {
+                fileInputRef.current.click();
+            };
+
+            // មុខងារពេលរើស File វីដេអូរួច
+            const handleFileChange = (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    // បង្កើត URL បណ្តោះអាសន្នដើម្បីចាក់វីដេអូក្នុង Browser
+                    const url = URL.createObjectURL(file);
+                    setVideoUrl(url);
+                }
+            };
 
             return (
                 <div className="flex flex-col h-screen bg-[#1e1e1e] text-white text-sm outline-none">
@@ -36,28 +54,28 @@
                         <span className="text-yellow-500">ស្មារតីខ្មែរ AI</span>
                     </div>
 
-                    {/* Main Workspace */}
                     <div className="flex flex-1 p-1 gap-1 overflow-hidden">
                         
                         {/* ================= LEFT COLUMN ================= */}
                         <div className="w-[30%] flex flex-col gap-1">
                             
-                            {/* Video Preview */}
-                            <div className="border border-green-700 bg-black flex-1 flex flex-col relative">
-                                <div className="bg-[#0f3d30] text-green-400 px-2 py-1 text-xs font-bold border-b border-green-700 flex justify-between">
+                            {/* Video Preview Area */}
+                            <div className="border border-green-700 bg-black flex-1 flex flex-col relative overflow-hidden">
+                                <div className="bg-[#0f3d30] text-green-400 px-2 py-1 text-xs font-bold border-b border-green-700 flex justify-between z-10">
                                     <span>📹 Video Preview</span>
                                 </div>
-                                <div className="flex-1 flex items-center justify-center bg-[#111]">
-                                    <div className="text-gray-600 text-center">
-                                        <span className="text-4xl">▶️</span>
-                                        <p className="mt-2 text-xs">No Video Loaded</p>
-                                    </div>
-                                </div>
-                                {/* Player Controls */}
-                                <div className="p-2 border-t border-green-700 bg-[#222] flex items-center gap-2">
-                                    <button className="bg-green-700 hover:bg-green-600 text-white px-4 py-1 rounded text-xs font-bold">▶ Play</button>
-                                    <button className="bg-red-700 hover:bg-red-600 text-white px-4 py-1 rounded text-xs font-bold">⏹ Stop</button>
-                                    <span className="text-cyan-400 font-mono text-xs font-bold ml-auto">00:00 / 00:00</span>
+                                
+                                <div className="flex-1 flex items-center justify-center bg-[#111] relative">
+                                    {videoUrl ? (
+                                        /* ពេលមានវីដេអូ វានឹងបង្ហាញ Video Player */
+                                        <video src={videoUrl} controls className="absolute inset-0 w-full h-full object-contain bg-black"></video>
+                                    ) : (
+                                        /* បើអត់មានវីដេអូ បង្ហាញរូបតំណាងធម្មតា */
+                                        <div className="text-gray-600 text-center">
+                                            <span className="text-4xl">▶️</span>
+                                            <p className="mt-2 text-xs">No Video Loaded</p>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -65,13 +83,20 @@
                             <div className="border border-green-700 bg-[#222] h-[30%] flex flex-col">
                                 <div className="bg-[#0f3d30] text-green-400 px-2 py-1 text-xs font-bold border-b border-green-700 flex justify-between items-center">
                                     <span>⚙ Tools</span>
-                                    <label className="flex items-center gap-1 cursor-pointer">
-                                        <input type="checkbox" className="accent-green-500" />
-                                        <span className="text-white font-normal text-xs">Mute</span>
-                                    </label>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2 p-2 flex-1 content-start">
-                                    <button className="bg-[#d97706] hover:bg-yellow-600 text-white py-2 rounded text-xs font-bold">📁 Load Video</button>
+                                    {/* លាក់ Input ទុកសម្រាប់រើស File */}
+                                    <input 
+                                        type="file" 
+                                        accept="video/*" 
+                                        ref={fileInputRef} 
+                                        onChange={handleFileChange} 
+                                        style={{ display: 'none' }} 
+                                    />
+                                    {/* ភ្ជាប់មុខងារ handleLoadVideoClick ទៅប៊ូតុង */}
+                                    <button onClick={handleLoadVideoClick} className="bg-[#d97706] hover:bg-yellow-600 text-white py-2 rounded text-xs font-bold cursor-pointer">
+                                        📁 Load Video
+                                    </button>
                                     <button className="bg-[#2563eb] hover:bg-blue-600 text-white py-2 rounded text-xs font-bold">🔄 Refresh</button>
                                     <button className="bg-[#7e22ce] hover:bg-purple-600 text-white py-2 rounded text-xs font-bold">📄 Import SRT</button>
                                     <button className="bg-[#475569] hover:bg-gray-600 text-white py-2 rounded text-xs font-bold">💾 Export SRT</button>
@@ -79,10 +104,8 @@
                             </div>
                         </div>
 
-                        {/* ================= RIGHT COLUMN ================= */}
+                        {/* ================= RIGHT COLUMN (រក្សាដូចដើម) ================= */}
                         <div className="w-[70%] flex flex-col gap-1">
-                            
-                            {/* Table Area */}
                             <div className="border border-green-700 bg-[#1a1a1a] flex-1 flex flex-col overflow-hidden">
                                 <div className="grid grid-cols-12 bg-orange-500 text-black font-bold text-xs">
                                     <div className="col-span-1 p-1 border-r border-orange-600">Start</div>
@@ -93,7 +116,6 @@
                                     </div>
                                     <div className="col-span-1 p-1 text-center">🔊 Audio</div>
                                 </div>
-                                
                                 <div className="overflow-y-auto flex-1">
                                     {subtitles.map((sub, index) => (
                                         <div key={index} className={`grid grid-cols-12 text-xs border-b border-[#333] ${index % 2 === 0 ? 'bg-[#1a2e24]' : 'bg-[#16271e]'} hover:bg-[#203a2d]`}>
@@ -105,7 +127,6 @@
                                             <div className="col-span-3 p-1 border-r border-green-800 flex items-center justify-between text-[11px]">
                                                 <span className="text-gray-300 truncate w-20">{sub.voice}</span>
                                                 <input type="range" className="w-16 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer" />
-                                                <span className="text-[9px] text-gray-500">+0Hz</span>
                                             </div>
                                             <div className="col-span-1 p-1 flex justify-center items-center">
                                                 <button className="text-green-500 hover:text-white">🔊 Play</button>
@@ -114,29 +135,18 @@
                                     ))}
                                 </div>
                             </div>
-
-                            {/* Timeline Editor */}
                             <div className="border border-green-700 bg-[#222] h-[30%] flex flex-col">
                                 <div className="bg-[#0f3d30] text-green-400 px-2 py-1 text-xs font-bold border-b border-green-700 flex justify-between items-center">
                                     <span>〰 Timeline Editor</span>
-                                    <div className="flex gap-2 items-center text-[10px]">
-                                        <span>Zoom:</span>
-                                        <input type="range" className="w-24 h-1 bg-blue-600 rounded-lg appearance-none" />
-                                        <button className="bg-orange-500 text-black px-2 py-0.5 rounded">Color</button>
-                                        <span>Voice:</span>
-                                        <select className="bg-white text-black rounded"><option>👩🏻 KH Khmer</option></select>
-                                        <button className="bg-green-500 text-black px-2 py-0.5 rounded">Auto Subs</button>
-                                    </div>
+                                    <button className="bg-green-500 text-black px-2 py-0.5 rounded text-[10px]">Auto Subs</button>
                                 </div>
                                 <div className="flex-1 relative bg-[#1a1a1a] overflow-hidden p-2">
                                     <div className="absolute top-2 left-2 right-2 h-8 bg-[#00ff7f] border border-black flex">
                                         <div className="w-[20%] border-r border-black p-1 text-[10px] text-black truncate">បងប្អូន មន្ត្រី ជាន់...</div>
                                         <div className="w-[30%] border-r border-black p-1 text-[10px] text-black truncate">ជុំវិញ រឿង ដែល ល...</div>
-                                        <div className="w-[50%] p-1 text-[10px] text-black truncate">ពាក់ព័ន្ធ នឹង រឿង ឧក...</div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
